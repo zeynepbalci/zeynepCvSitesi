@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gezegen Geçişi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            font-family: 'Orbitron', monospace;
+            color: #00ffff;
+            overflow: hidden;
+        }
+        
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #planet-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        #loading-text {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            opacity: 0;
+            animation: textFadeIn 2s ease-out 1s forwards;
+        }
+        
+        .loading-title {
+            font-size: 2em;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            margin-bottom: 10px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        .loading-subtitle {
+            font-size: 1.1em;
+            color: #ffffff;
+            opacity: 0.8;
+        }
+        
+        .progress-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(0, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #0088ff);
+            width: 0%;
+            animation: progressFill 3s ease-out 2s forwards;
+            border-radius: 2px;
+        }
+        
+        @keyframes textFadeIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 20px #00ffff; }
+            to { text-shadow: 0 0 30px #00ffff, 0 0 40px #00ffff; }
+        }
+        
+        @keyframes progressFill {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="planet-canvas"></canvas>
+        
+        <div id="loading-text">
+            <div class="loading-title" id="planet-title">Gezegen Yükleniyor...</div>
+            <div class="loading-subtitle" id="planet-description">Hazırlanıyor...</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        
+        // URL parametrelerini al
+        // URL parametrelerini al
+        const urlParams = new URLSearchParams(window.location.search);
+        const planetName = urlParams.get('planet');
+        const planetPage = urlParams.get('page');
+        
+        // Gezegen bilgileri
+        const planetInfo = {
+            'Projelerim': {
+                title: '🌟 Projelerim',
+                description: 'Projelerim yükleniyor...',
+                model: '/sun.glb',
+                color: 0x224466,
+                page: '/projelerim.html'
+            },
+            'Deneyimlerim': {
+                title: '💼 Deneyimlerim',
+                description: 'Deneyimlerim yükleniyor...',
+                model: '/saturn2.glb',
+                color: 0x446688,
+                page: '/deneyimlerim.html'
+            },
+            'Yeteneklerim': {
+                title: '⚡ Yeteneklerim',
+                description: 'Yeteneklerim yükleniyor...',
+                model: '/neptune2.glb',
+                color: 0x0088ff,
+                page: '/yeteneklerim.html'
+            },
+            'İletişim': {
+                title: '📞 İletişim',
+                description: 'İletişim bilgileri yükleniyor...',
+                model: '/planet4.glb',
+                color: 0xff6688,
+                page: '/iletisim.html'
+            }
+        };
+        
+        // Sayfa başlığını güncelle
+        document.title = planetInfo[planetName]?.title || 'Gezegen Geçişi';
+        
+        // Loading text'i güncelle
+        document.getElementById('planet-title').textContent = planetInfo[planetName]?.title || 'Gezegen Yükleniyor...';
+        document.getElementById('planet-description').textContent = planetInfo[planetName]?.description || 'Hazırlanıyor...';
+        
+        // Three.js setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: document.getElementById('planet-canvas'),
+            antialias: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000);
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+        
+        // Point light for glow effect
+        const planetColor = planetInfo[planetName]?.color || 0x00ffff;
+        const pointLight = new THREE.PointLight(planetColor, 1, 10);
+        pointLight.position.set(2, 2, 2);
+        scene.add(pointLight);
+        
+        camera.position.z = 5;
+        
+        // Load planet model
+        const loader = new THREE.GLTFLoader();
+        const modelPath = planetInfo[planetName]?.model || '/sun.glb';
+        
+        loader.load(modelPath, function (gltf) {
+            const planet = gltf.scene;
+            planet.scale.setScalar(2);
+            
+            // Apply planet color
+            planet.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    child.material.color = new THREE.Color(planetColor);
+                    child.material.emissive = new THREE.Color(planetColor);
+                    child.material.emissiveIntensity = 0.2;
+                }
+            });
+            
+            scene.add(planet);
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate planet
+                planet.rotation.y += 0.01;
+                planet.rotation.x += 0.005;
+                
+                // Rotate point light
+                const time = Date.now() * 0.001;
+                pointLight.position.x = Math.cos(time) * 3;
+                pointLight.position.z = Math.sin(time) * 3;
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // 5 saniye sonra ilgili sayfaya yönlendir
+        setTimeout(() => {
+            const targetPage = planetInfo[planetName]?.page || '/projelerim.html';
+            window.location.href = targetPage;
+        }, 5000);
+    </script>
+</body>
+</html>

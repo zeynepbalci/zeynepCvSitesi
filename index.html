@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeynep Balci - Cyberpunk CV Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #00ffff;
+        }
+        
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            color: #00ffff;
+            font-size: 18px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            font-weight: 700;
+        }
+        
+        #ui-overlay h2 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            animation: neonPulse 2s ease-in-out infinite alternate;
+        }
+        
+        #ui-overlay p {
+            font-size: 14px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #floor-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            color: #ff00ff;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 5px;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5), inset 0 0 20px rgba(255, 0, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        #floor-info h3 {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        #floor-info p {
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        
+        #controls-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            color: #00ff00;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 5px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5), inset 0 0 20px rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(10px);
+            font-family: 'Orbitron', monospace;
+        }
+        
+        #controls-info h3 {
+            margin: 0 0 15px 0;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #controls-info p {
+            margin: 8px 0;
+            font-size: 12px;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ffff;
+            font-size: 24px;
+            z-index: 200;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 20px #00ffff;
+            animation: loadingPulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Cyberpunk animations */
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+            100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff; }
+        }
+        
+        @keyframes loadingPulse {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        /* Scan lines effect */
+        #canvas-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%,
+                rgba(0, 255, 255, 0.02) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+            animation: scanLines 0.1s linear infinite;
+        }
+        
+        @keyframes scanLines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Glitch effect */
+        #ui-overlay h2::before,
+        #ui-overlay h2::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #ui-overlay h2::before {
+            animation: glitch 3s infinite linear alternate-reverse;
+            color: #ff00ff;
+            z-index: -1;
+        }
+        
+        #ui-overlay h2::after {
+            animation: glitch 2s infinite linear alternate-reverse;
+            color: #00ff00;
+            z-index: -2;
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        /* Welcome Screen Styles */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .welcome-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            padding: 40px;
+        }
+        
+        .logo-container {
+            margin-bottom: 60px;
+        }
+        
+        .main-title {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            margin-bottom: 20px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            position: relative;
+        }
+        
+        .title-underline {
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            margin: 0 auto 20px;
+            animation: underlinePulse 2s ease-in-out infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        
+        .intro-text {
+            margin-bottom: 60px;
+            color: #ffffff;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .intro-text p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .button-container {
+            margin-bottom: 40px;
+        }
+        
+        .cyberpunk-btn {
+            position: relative;
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ffff;
+            background: transparent;
+            border: 3px solid #00ffff;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .cyberpunk-btn:hover {
+            background: #00ffff;
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+        
+        .cyberpunk-btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cyberpunk-btn:hover .btn-glow {
+            left: 100%;
+        }
+        
+        .loading-indicator {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .loading-indicator.show {
+            display: block;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(0, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 0 auto 15px;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            border-radius: 2px;
+            animation: loadingProgress 3s ease-in-out;
+        }
+        
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #00ffff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #ff00ff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #00ff00, transparent),
+                radial-gradient(1px 1px at 130px 80px, #00ffff, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: particleFloat 20s linear infinite;
+        }
+        
+        .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 10s linear infinite;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+
+        
+        /* Avatar Image */
+        .avatar-image-container {
+            position: absolute;
+            top: 5%;
+            right: 5%;
+            width: 250px;
+            height: 250px;
+            z-index: 50;
+        }
+        
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #00ffff;
+            object-fit: cover;
+            object-position: 40% center; /* Resmi sola kaydır */
+            transform: scale(1.7); /* Resmi daha fazla yakınlaştır */
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.5),
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            animation: avatarImageGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes avatarImageGlow {
+            0% { 
+                box-shadow: 
+                    0 0 20px rgba(0, 255, 255, 0.5),
+                    inset 0 0 20px rgba(0, 255, 255, 0.1);
+                transform: scale(1);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 40px rgba(0, 255, 255, 0.8),
+                    0 0 60px rgba(255, 0, 255, 0.3),
+                    inset 0 0 30px rgba(0, 255, 255, 0.2);
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Animations */
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
+            100% { text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff, 0 0 80px #00ffff; }
+        }
+        
+        @keyframes underlinePulse {
+            0% { opacity: 0.5; transform: scaleX(0.8); }
+            100% { opacity: 1; transform: scaleX(1); }
+        }
+        
+        @keyframes loadingProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <div class="logo-container">
+                <h1 class="main-title" data-text="ZEYNEP BALCI">ZEYNEP BALCI</h1>
+                <div class="title-underline"></div>
+                <p class="subtitle">ÖZGEÇMİŞ</p>
+            </div>
+            
+            <div class="intro-text">
+                <p>Merhaba ben Zeynep Balcı. Burada, çalışmalarım ve deneyimlerim hakkında bilgi edinebilirsiniz.</p>
+            </div>
+            
+            <div class="button-container">
+                <button id="enter-world-btn" class="cyberpunk-btn">
+                    <span class="btn-text">DEVAM ET</span>
+                    <span class="btn-glow"></span>
+                </button>
+            </div>
+            
+            <div class="loading-indicator" id="loading-indicator">
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p>Yükleniyor...</p>
+            </div>
+        </div>
+        
+        <!-- Avatar Image -->
+        <div class="avatar-image-container">
+            <img src="/avatarResim.png" alt="Zeynep Balci Avatar" class="avatar-image">
+        </div>
+        
+        <div class="background-animation">
+            <div class="floating-particles"></div>
+            <div class="grid-lines"></div>
+        </div>
+    </div>
+
+    <!-- 3D World Container -->
+    <div id="canvas-container">
+        <div id="loading">SYSTEM LOADING...</div>
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

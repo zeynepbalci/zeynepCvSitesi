@@ -1,0 +1,64 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/deneyimlerim",
+      "dest": "/deneyimlerim.html"
+    },
+    {
+      "src": "/yeteneklerim",
+      "dest": "/yeteneklerim.html"
+    },
+    {
+      "src": "/iletisim",
+      "dest": "/iletisim.html"
+    },
+    {
+      "src": "/projelerim",
+      "dest": "/projelerim.html"
+    },
+    {
+      "src": "/planet-transition",
+      "dest": "/planet-transition.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/deneyimlerim",
+      "destination": "/deneyimlerim.html"
+    },
+    {
+      "source": "/yeteneklerim",
+      "destination": "/yeteneklerim.html"
+    },
+    {
+      "source": "/iletisim",
+      "destination": "/iletisim.html"
+    },
+    {
+      "source": "/projelerim",
+      "destination": "/projelerim.html"
+    },
+    {
+      "source": "/planet-transition",
+      "destination": "/planet-transition.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
