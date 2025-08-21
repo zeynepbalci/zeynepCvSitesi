@@ -9,32 +9,6 @@
       }
     }
   ],
-  "routes": [
-    {
-      "src": "/deneyimlerim",
-      "dest": "/deneyimlerim.html"
-    },
-    {
-      "src": "/yeteneklerim",
-      "dest": "/yeteneklerim.html"
-    },
-    {
-      "src": "/iletisim",
-      "dest": "/iletisim.html"
-    },
-    {
-      "src": "/projelerim",
-      "dest": "/projelerim.html"
-    },
-    {
-      "src": "/planet-transition",
-      "dest": "/planet-transition.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
   "rewrites": [
     {
       "source": "/deneyimlerim",
