@@ -11,13 +11,15 @@
             background-color: #000000;
             font-family: 'Orbitron', monospace;
             color: #00ffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         
         #container {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px 0;
         }
         
         #planet-canvas {
@@ -30,14 +32,15 @@
         }
         
         #content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             z-index: 2;
             text-align: center;
             opacity: 0;
             animation: contentFadeIn 2s ease-out 1s forwards;
+            padding: 20px;
         }
         
         .title {
@@ -137,8 +140,8 @@
         }
         
         @keyframes contentFadeIn {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
         
         @keyframes titleGlow {

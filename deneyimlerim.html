@@ -11,13 +11,15 @@
             background-color: #000000;
             font-family: 'Orbitron', monospace;
             color: #00ffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         
         #container {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px 0;
         }
         
         #planet-canvas {
@@ -30,14 +32,15 @@
         }
         
         #content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             z-index: 2;
             text-align: center;
             opacity: 0;
             animation: contentFadeIn 2s ease-out 1s forwards;
+            padding: 20px;
         }
         
         .title {
@@ -98,6 +101,19 @@
         .duration {
             color: #cccccc;
             font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .description {
+            text-align: left;
+            margin-top: 15px;
+        }
+        
+        .description p {
+            color: #ffffff;
+            font-size: 0.9em;
+            margin: 8px 0;
+            line-height: 1.4;
         }
         
         .close-btn {
@@ -130,8 +146,8 @@
         }
         
         @keyframes contentFadeIn {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
         
         @keyframes titleGlow {
@@ -178,6 +194,10 @@
                 font-size: 1em;
             }
             
+            .description p {
+                font-size: 0.85em;
+            }
+            
             .close-btn {
                 top: 15px;
                 right: 15px;
@@ -214,6 +234,10 @@
                 font-size: 0.9em;
             }
             
+            .description p {
+                font-size: 0.8em;
+            }
+            
             .close-btn {
                 top: 10px;
                 right: 10px;
@@ -236,11 +260,34 @@
                 <div class="experience-card">
                     <div class="position-title">Stajyer</div>
                     <div class="company-name">🏢 Gazi Teknopark Cisarge</div>
+                    <div class="duration">2023 - 2024</div>
+                    <div class="description">
+                        <p>• Web geliştirme projelerinde aktif rol aldım</p>
+                        <p>• Frontend teknolojileri konusunda deneyim kazandım</p>
+                        <p>• Takım çalışması ve proje yönetimi becerileri geliştirdim</p>
+                    </div>
                 </div>
                 
                 <div class="experience-card">
                     <div class="position-title">Stajyer</div>
                     <div class="company-name">🏢 Bilgi Teknolojileri ve İletişim Kurumu (BTK)</div>
+                    <div class="duration">2024 - Devam Ediyor</div>
+                    <div class="description">
+                        <p>• Siber güvenlik projelerinde çalışıyorum</p>
+                        <p>• Backend geliştirme ve veritabanı yönetimi</p>
+                        <p>• API geliştirme ve entegrasyon projeleri</p>
+                    </div>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="position-title">Freelance Developer</div>
+                    <div class="company-name">💻 Bağımsız Projeler</div>
+                    <div class="duration">2022 - Devam Ediyor</div>
+                    <div class="description">
+                        <p>• E-ticaret platformları geliştirdim</p>
+                        <p>• Web siteleri ve mobil uygulamalar</p>
+                        <p>• Müşteri ihtiyaçlarına özel çözümler</p>
+                    </div>
                 </div>
             </div>
         </div>
