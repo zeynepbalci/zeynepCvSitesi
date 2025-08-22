@@ -85,6 +85,35 @@
             from { width: 0%; }
             to { width: 100%; }
         }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .loading-title {
+                font-size: 1.5em;
+            }
+            
+            .loading-subtitle {
+                font-size: 1em;
+            }
+            
+            .progress-bar {
+                width: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .loading-title {
+                font-size: 1.2em;
+            }
+            
+            .loading-subtitle {
+                font-size: 0.9em;
+            }
+            
+            .progress-bar {
+                width: 200px;
+            }
+        }
     </style>
 </head>
 <body>
