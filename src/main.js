@@ -503,7 +503,85 @@ class CVPortfolio {
             </div>
         `;
         
-        // Add CSS animation
+        // Create CV button
+        const cvButton = document.createElement('div');
+        cvButton.id = 'cv-button';
+        cvButton.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            height: 60px;
+            background: transparent;
+            border: 3px solid #00ffff;
+            border-radius: 5px;
+            color: #00ffff;
+            z-index: 1000;
+            font-family: 'Orbitron', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            animation: cvButtonGlow 2s ease-in-out infinite alternate;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        `;
+        
+        cvButton.innerHTML = `
+            <span class="btn-text" style="text-shadow: 0 0 15px #00ffff; position: relative; z-index: 2;">CV'Mİ GÖRÜNTÜLE</span>
+            <span class="btn-glow" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent); transition: left 0.5s ease;"></span>
+        `;
+        
+        // Add click event to CV button
+        cvButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // PDF'i yeni sekmede aç ve focus'u koru
+            const pdfWindow = window.open('/Özgeçmiş-Zeynep Ruken BALCI.pdf', '_blank', 'noopener,noreferrer');
+            
+            // Ana pencereyi focus'ta tut
+            if (pdfWindow) {
+                setTimeout(() => {
+                    window.focus();
+                }, 100);
+            }
+        });
+        
+        // Add hover effect
+        cvButton.addEventListener('mouseenter', () => {
+            cvButton.style.background = '#00ffff';
+            cvButton.style.color = '#000';
+            cvButton.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.8)';
+            cvButton.style.transform = 'translateY(-2px)';
+            
+            // Trigger glow animation
+            const glowElement = cvButton.querySelector('.btn-glow');
+            if (glowElement) {
+                glowElement.style.left = '100%';
+            }
+        });
+        
+        cvButton.addEventListener('mouseleave', () => {
+            cvButton.style.background = 'transparent';
+            cvButton.style.color = '#00ffff';
+            cvButton.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.3)';
+            cvButton.style.transform = 'translateY(0)';
+            
+            // Reset glow animation
+            const glowElement = cvButton.querySelector('.btn-glow');
+            if (glowElement) {
+                glowElement.style.left = '-100%';
+            }
+        });
+        
+        // Add CSS animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes infoPanelGlow {
@@ -516,12 +594,46 @@ class CVPortfolio {
                     border-color: #00aaff;
                 }
             }
+            
+            @keyframes cvButtonGlow {
+                0% { 
+                    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+                    border-color: #00ffff;
+                }
+                100% { 
+                    box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+                    border-color: #00aaff;
+                }
+            }
         `;
         document.head.appendChild(style);
         
-        document.body.appendChild(infoPanel);
+        // Create planet tooltip
+        const planetTooltip = document.createElement('div');
+        planetTooltip.id = 'planet-tooltip';
+        planetTooltip.style.cssText = `
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            color: #00ffff;
+            padding: 15px;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            z-index: 2000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 250px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        `;
         
-        console.log('Info panel created with black overlay style');
+        document.body.appendChild(infoPanel);
+        document.body.appendChild(cvButton);
+        document.body.appendChild(planetTooltip);
+        
+        console.log('Info panel, CV button, and planet tooltip created');
     }
     
     setupCyberpunkLighting() {
@@ -735,6 +847,16 @@ class CVPortfolio {
             this.handlePlanetClick(event);
         });
         
+        // Planet hover detection
+        document.addEventListener('mousemove', (event) => {
+            this.handlePlanetHover(event);
+        });
+        
+        // Hide tooltip when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            this.hidePlanetTooltip();
+        });
+        
         // Window resize
         window.addEventListener('resize', () => {
             this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -779,6 +901,103 @@ class CVPortfolio {
                 }
             }
         }
+    }
+    
+    handlePlanetHover(event) {
+        // Calculate mouse position in normalized device coordinates
+        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        
+        // Raycast to find intersection with planets
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        const intersects = this.raycaster.intersectObjects(this.planets, true);
+        
+        if (intersects.length > 0) {
+            const hoveredObject = intersects[0].object;
+            
+            // Find planet data
+            let planetData = null;
+            if (hoveredObject.userData && hoveredObject.userData.name) {
+                planetData = hoveredObject.userData;
+            } else {
+                // Find the parent planet object
+                let planet = hoveredObject;
+                while (planet.parent && !planet.userData.name) {
+                    planet = planet.parent;
+                }
+                if (planet.userData.name) {
+                    planetData = planet.userData;
+                }
+            }
+            
+            if (planetData) {
+                this.showPlanetTooltip(event, planetData);
+                this.highlightPlanet(hoveredObject);
+            }
+        } else {
+            this.hidePlanetTooltip();
+            this.unhighlightAllPlanets();
+        }
+    }
+    
+    showPlanetTooltip(event, planetData) {
+        const tooltip = document.getElementById('planet-tooltip');
+        if (!tooltip) return;
+        
+        // Get planet descriptions based on name
+        const descriptions = {
+            'Projelerim': '🚀 Projelerim ve çalışmalarım\nJava, Python, Swift, JavaScript ile geliştirdiğim projeler',
+            'Deneyimlerim': '💼 İş deneyimlerim\nGazi Teknopark ve BTK\'da yazılım geliştirici deneyimlerim',
+            'Yeteneklerim': '⚡ Teknik yeteneklerim\nC#, Java, Python, HTML-CSS-JS, Swift, Linux, PostgreSQL, MySQL',
+            'İletişim': '📞 İletişim bilgilerim\nEmail, telefon ve sosyal medya hesaplarım'
+        };
+        
+        tooltip.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 8px; color: #00ffff;">
+                ${planetData.name}
+            </div>
+            <div style="font-size: 12px; line-height: 1.4; color: #ffffff;">
+                ${descriptions[planetData.name] || planetData.description}
+            </div>
+            <div style="font-size: 10px; margin-top: 8px; color: #00aaff;">
+                Tıklayarak detayları görüntüle
+            </div>
+        `;
+        
+        // Position tooltip near mouse
+        tooltip.style.left = (event.clientX + 15) + 'px';
+        tooltip.style.top = (event.clientY - 15) + 'px';
+        tooltip.style.opacity = '1';
+    }
+    
+    hidePlanetTooltip() {
+        const tooltip = document.getElementById('planet-tooltip');
+        if (tooltip) {
+            tooltip.style.opacity = '0';
+        }
+    }
+    
+    highlightPlanet(planetObject) {
+        // Find the planet mesh and add glow effect
+        planetObject.traverse((child) => {
+            if (child.isMesh && child.material) {
+                child.material.emissive = new THREE.Color(0x00ffff);
+                child.material.emissiveIntensity = 0.3;
+                child.material.needsUpdate = true;
+            }
+        });
+    }
+    
+    unhighlightAllPlanets() {
+        this.planets.forEach(planet => {
+            planet.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    child.material.emissive = new THREE.Color(0x000000);
+                    child.material.emissiveIntensity = 0;
+                    child.material.needsUpdate = true;
+                }
+            });
+        });
     }
     
     showPlanetInfo(planetData) {

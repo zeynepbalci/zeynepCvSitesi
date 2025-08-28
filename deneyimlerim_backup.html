@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projelerim - Zeynep Balcı</title>
+    <title>Deneyimlerim - Zeynep Balcı</title>
     <style>
         body {
             margin: 0;
@@ -58,58 +58,58 @@
             margin-bottom: 40px;
         }
         
-        .projects-grid {
+        .experience-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .project-card {
+        .experience-card {
             background: rgba(0, 255, 255, 0.1);
             border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             transition: all 0.3s ease;
             animation: cardSlideIn 1s ease-out both;
         }
         
-        .project-card:nth-child(1) { animation-delay: 2s; }
-        .project-card:nth-child(2) { animation-delay: 2.2s; }
-        .project-card:nth-child(3) { animation-delay: 2.4s; }
-        .project-card:nth-child(4) { animation-delay: 2.6s; }
+        .experience-card:nth-child(1) { animation-delay: 2s; }
+        .experience-card:nth-child(2) { animation-delay: 2.2s; }
+        .experience-card:nth-child(3) { animation-delay: 2.4s; }
         
-        .project-card:hover {
+        .experience-card:hover {
             background: rgba(0, 255, 255, 0.2);
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
         }
         
-        .project-title {
-            font-size: 1.3em;
+        .position-title {
+            font-size: 1.4em;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: bold;
         }
         
-        .project-tech {
+        .company-name {
             color: #00ffff;
-            margin-bottom: 5px;
+            font-size: 1.1em;
+            margin-bottom: 10px;
         }
         
-        .project-year {
+        .duration {
             color: #cccccc;
             font-size: 0.9em;
             margin-bottom: 15px;
         }
         
-        .project-description {
+        .description {
             text-align: left;
             margin-top: 15px;
         }
         
-        .project-description p {
+        .description p {
             color: #ffffff;
             font-size: 0.9em;
             margin: 8px 0;
@@ -176,25 +176,25 @@
                 font-size: 1em;
             }
             
-            .projects-grid {
+            .experience-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 0 20px;
             }
             
-            .project-card {
+            .experience-card {
                 padding: 20px;
             }
             
-            .project-title {
+            .position-title {
                 font-size: 1.2em;
             }
             
-            .project-tech {
-                font-size: 0.9em;
+            .company-name {
+                font-size: 1em;
             }
             
-            .project-description p {
+            .description p {
                 font-size: 0.85em;
             }
             
@@ -216,26 +216,26 @@
                 font-size: 0.9em;
             }
             
-            .projects-grid {
+            .experience-grid {
                 grid-template-columns: 1fr;
                 gap: 15px;
                 padding: 0 15px;
             }
             
-            .project-card {
+            .experience-card {
                 padding: 15px;
             }
             
-            .project-title {
+            .position-title {
                 font-size: 1.1em;
             }
             
-            .project-tech {
-                font-size: 0.8em;
+            .company-name {
+                font-size: 0.9em;
             }
             
-            .project-description p {
-                font-size: 0.75em;
+            .description p {
+                font-size: 0.8em;
             }
             
             .close-btn {
@@ -253,62 +253,29 @@
         <canvas id="planet-canvas"></canvas>
         
         <div id="content">
-            <h1 class="title">🌟 Projelerim</h1>
-            <p class="subtitle">Yaptığım projeler ve çalışmalar</p>
+            <h1 class="title">💼 Deneyimlerim</h1>
+            <p class="subtitle">İş deneyimlerim ve kariyer yolculuğum</p>
             
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-title">Java Android E-Ticaret Uygulaması</div>
-                    <div class="project-tech">🛠️ Java, Android Studio, SQLite</div>
-                    <div class="project-year">2024</div>
-                    <div class="project-description">
-                        <p>• Android platformu için e-ticaret uygulaması</p>
-                        <p>• Kullanıcı yönetimi ve ürün kataloğu</p>
-                        <p>• SQLite veritabanı entegrasyonu</p>
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="position-title">Yazılım Geliştirici - Internship</div>
+                    <div class="company-name">🏢 Gazi TEKNOPARK Cisarge Bilişim</div>
+                    <div class="duration">2024</div>
+                    <div class="description">
+                        <p>• Yazılım geliştirme projelerinde aktif rol aldım</p>
+                        <p>• Takım çalışması ve proje yönetimi becerileri geliştirdim</p>
+                        <p>• Endüstri deneyimi kazandım</p>
                     </div>
                 </div>
                 
-                <div class="project-card">
-                    <div class="project-title">3D Web Tabanlı Etkileşimli CV Sitesi</div>
-                    <div class="project-tech">🛠️ HTML, CSS, JavaScript, Three.js, Cannon.js</div>
-                    <div class="project-year">2024</div>
-                    <div class="project-description">
-                        <p>• 3D interaktif portfolio sitesi</p>
-                        <p>• Cyberpunk temalı tasarım</p>
-                        <p>• Fizik motoru entegrasyonu</p>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-title">DietCoach iOS Uygulaması</div>
-                    <div class="project-tech">🛠️ Swift, SwiftUI, Core Data, Combine Framework</div>
-                    <div class="project-year">2024</div>
-                    <div class="project-description">
-                        <p>• iOS platformu için diyet koçu uygulaması</p>
-                        <p>• Kullanıcı dostu arayüz tasarımı</p>
-                        <p>• Core Data ile veri yönetimi</p>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-title">Restoran Otomasyon Sistemi</div>
-                    <div class="project-tech">🛠️ Java, Spring Boot, Maven, Mikroservis Mimarisi, JPA/Hibernate, Validation, Encryption, PostgreSQL</div>
-                    <div class="project-year">2024</div>
-                    <div class="project-description">
-                        <p>• Mikroservis mimarisi ile restoran yönetim sistemi</p>
-                        <p>• Müşteri, çağrı kaydı ve log yönetimi</p>
-                        <p>• Güvenlik ve veri doğrulama sistemi</p>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-title">Python Tabanlı Sağlık Asistanı (Makine Öğrenmesi)</div>
-                    <div class="project-tech">🛠️ Python, Scikit-learn, Pandas, Flask, HTML, CSS, JavaScript</div>
-                    <div class="project-year">2024</div>
-                    <div class="project-description">
-                        <p>• Yapay zeka tabanlı sağlık asistanı</p>
-                        <p>• Makine öğrenmesi algoritmaları</p>
-                        <p>• Web arayüzü ile entegrasyon</p>
+                <div class="experience-card">
+                    <div class="position-title">Yazılım Geliştirici - Internship</div>
+                    <div class="company-name">🏢 Bilgi Teknolojileri ve İletişim Kurumu</div>
+                    <div class="duration">2025</div>
+                    <div class="description">
+                        <p>• Yazılım geliştirme ve sistem entegrasyonu</p>
+                        <p>• Kurumsal projelerde deneyim kazandım</p>
+                        <p>• Devlet kurumu ortamında çalışma deneyimi</p>
                     </div>
                 </div>
             </div>
