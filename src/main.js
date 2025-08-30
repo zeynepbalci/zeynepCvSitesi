@@ -612,7 +612,8 @@ class CVPortfolio {
                     width: 120px !important;
                     height: 40px !important;
                     top: 10px !important;
-                    right: 10px !important;
+                    left: 10px !important;
+                    right: auto !important;
                     font-size: 10px !important;
                     letter-spacing: 1px !important;
                     border-width: 2px !important;
@@ -629,7 +630,8 @@ class CVPortfolio {
                     width: 100px !important;
                     height: 35px !important;
                     top: 8px !important;
-                    right: 8px !important;
+                    left: 8px !important;
+                    right: auto !important;
                     font-size: 9px !important;
                     letter-spacing: 0.5px !important;
                 }
