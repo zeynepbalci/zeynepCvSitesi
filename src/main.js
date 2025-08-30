@@ -605,6 +605,39 @@ class CVPortfolio {
                     border-color: #00aaff;
                 }
             }
+            
+            /* Mobile responsive styles for CV button */
+            @media (max-width: 768px) {
+                #cv-button {
+                    width: 120px !important;
+                    height: 40px !important;
+                    top: 10px !important;
+                    right: 10px !important;
+                    font-size: 10px !important;
+                    letter-spacing: 1px !important;
+                    border-width: 2px !important;
+                }
+                
+                #cv-button .btn-text {
+                    font-size: 10px !important;
+                    line-height: 1.2 !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                #cv-button {
+                    width: 100px !important;
+                    height: 35px !important;
+                    top: 8px !important;
+                    right: 8px !important;
+                    font-size: 9px !important;
+                    letter-spacing: 0.5px !important;
+                }
+                
+                #cv-button .btn-text {
+                    font-size: 9px !important;
+                }
+            }
         `;
         document.head.appendChild(style);
         
