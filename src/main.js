@@ -639,6 +639,27 @@ class CVPortfolio {
                 #cv-button .btn-text {
                     font-size: 9px !important;
                 }
+                
+                #info-panel {
+                    width: 180px !important;
+                    height: 70px !important;
+                    bottom: 10px !important;
+                    right: 10px !important;
+                    font-size: 14px !important;
+                    border-radius: 10px !important;
+                }
+            }
+            
+            /* Bilgi paneli için mobil responsive styles */
+            @media (max-width: 768px) {
+                #info-panel {
+                    width: 200px !important;
+                    height: 80px !important;
+                    bottom: 15px !important;
+                    right: 15px !important;
+                    font-size: 16px !important;
+                    border-radius: 12px !important;
+                }
             }
         `;
         document.head.appendChild(style);
