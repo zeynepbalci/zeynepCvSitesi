@@ -611,12 +611,13 @@ class CVPortfolio {
                 #cv-button {
                     width: 120px !important;
                     height: 40px !important;
-                    top: 10px !important;
+                    top: 60px !important;
                     left: 10px !important;
                     right: auto !important;
                     font-size: 10px !important;
                     letter-spacing: 1px !important;
                     border-width: 2px !important;
+                    z-index: 998 !important;
                 }
                 
                 #cv-button .btn-text {
@@ -629,11 +630,12 @@ class CVPortfolio {
                 #cv-button {
                     width: 100px !important;
                     height: 35px !important;
-                    top: 8px !important;
+                    top: 50px !important;
                     left: 8px !important;
                     right: auto !important;
                     font-size: 9px !important;
                     letter-spacing: 0.5px !important;
+                    z-index: 998 !important;
                 }
                 
                 #cv-button .btn-text {
@@ -1352,7 +1354,7 @@ class CVPortfolio {
                     justify-content: center; 
                     font-size: 1.5em; 
                     font-weight: bold; 
-                    z-index: 1001;
+                    z-index: 9999;
                     animation: closeBtnAppear 1s ease-out 3.5s both;
                     opacity: 0;
                 }
