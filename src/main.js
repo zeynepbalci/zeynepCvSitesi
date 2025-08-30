@@ -485,7 +485,7 @@ class CVPortfolio {
             border: 2px solid #00ffff;
             border-radius: 15px;
             color: #00ffff;
-            z-index: 1000;
+            z-index: 999;
             font-family: 'Orbitron', monospace;
             font-size: 18px;
             text-align: center;
@@ -516,7 +516,7 @@ class CVPortfolio {
             border: 3px solid #00ffff;
             border-radius: 5px;
             color: #00ffff;
-            z-index: 1000;
+            z-index: 999;
             font-family: 'Orbitron', monospace;
             font-size: 16px;
             font-weight: bold;
@@ -1352,6 +1352,7 @@ class CVPortfolio {
                     justify-content: center; 
                     font-size: 1.5em; 
                     font-weight: bold; 
+                    z-index: 1001;
                     animation: closeBtnAppear 1s ease-out 3.5s both;
                     opacity: 0;
                 }
